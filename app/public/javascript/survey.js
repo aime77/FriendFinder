@@ -14,10 +14,49 @@ function questionnaire(questions) {
     </div>
   </div>`);
 
-
+    let questionnaire=
     questions.forEach((quest, index)=> {
         html(`<div><h3>${index} ${quest} </h3>\n ${options} </div>`);
-    })
+    }
+    
+);
+
+$(`#questionSpace`).append(questionnaire);
 }
 
-questionnaire();
+console.log(questionnaire);
+
+
+
+$(`#submit`).on('click', (event)=>{
+
+var newFriend={
+name:$(`#inputName`).val().trim(),
+picture:$(`#inputPicture`).val().trim(),
+scores:scoresArray,
+}
+
+$.post("/api/friends", newFriend, (data)=>{
+
+getFriendsData();
+
+$(`#inputName`).val(``);
+$(`#inputPicture`).val(``);
+$(`#inputScores`).val(``);
+});
+});
+
+
+function getFriendsData(){
+$.ajax({
+method:`GET`,
+URL:`/api/friends`,
+
+}).then(data=>{
+//
+  console.log(data);
+
+})
+}
+
+questionnaire(questions);
