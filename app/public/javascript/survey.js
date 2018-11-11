@@ -1,62 +1,60 @@
-let questions=['I remember my dreams most of the times.', 'I know myself well','I show care for other through words or actions', 'I show care for others through gifts',  'What I want in life is happiness', 'What I want in life is money and a good career', 'Do you have strong fears?','I know my strengths and weaknesses','for fun I like to read, atlk to people, watch movies','do you have chilhood traumas?', 'I have a clear idea of what my life will look like 10 years from now','Is it hard or easy fro you to admit your worng, make desicions, stand by opinions','Do you run into situation and feel upset and dot  know the cause?','my parents raised me well'];
+let questions = ['I remember my dreams most of the times.', 'I know myself well', 'I show care for other through words or actions', 'I show care for others through gifts', 'What I want in life is happiness', 'What I want in life is money and a good career', 'I have strong fears', 'I know my strengths and weaknesses', 'I have a clear idea of what my life will look like 10 years from now', 'It is hard for me to admit Im wrong', 'I feel upset without knowing the cause', 'My parents have raised me well'];
 
 function questionnaire(questions) {
-    const options = $(`<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Select an option
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="#">1 (Strongly agree)</a>
-      <a class="dropdown-item" href="#">2</a>
-      <a class="dropdown-item" href="#">3</a>
-  <a class="dropdown-item" href="#">4</a>
-  <a class="dropdown-item" href="#">5 (Strongly disagree)</a>
-    </div>
-  </div>`);
 
-    let questionnaire=
-    questions.forEach((quest, index)=> {
-        html(`<div><h3>${index} ${quest} </h3>\n ${options} </div>`);
-    }
-    
-);
 
-$(`#questionSpace`).append(questionnaire);
+  const options = ` <div class="form-group">
+  <select class="form-control id="combo" placeholder="Select Option">
+    <option selected>Select Option</option>
+    <option type=input>1 (Strongly Disagree)</option>
+    <option type=input>2</option>
+    <option type=input>3</option>
+    <option type=input>4</option>
+    <option type=input>5 (Strongly Agree)</option>
+  </select>
+</div>`;
+
+  questions.forEach((quest, index) => {
+    $(`#questionSpace`).append(`<div><h3>${index + 1}. ${quest} </h3>\n ${options} </div>\n`);
+  }
+  );
 }
 
-console.log(questionnaire);
+$(`#submit`).on('click', (event) => {
+  event.preventDefault();
+
+  let scoresArray = [];
 
 
+  let scoresArray = [];
+  scoresArray.push($('#combo :selected').text())
 
-$(`#submit`).on('click', (event)=>{
+  var newFriend = {
+    name: $(`#inputName`).val().trim(),
+    picture: $(`#inputPicture`).val().trim(),
+    scores: scoresArray
+  }
 
-var newFriend={
-name:$(`#inputName`).val().trim(),
-picture:$(`#inputPicture`).val().trim(),
-scores:scoresArray,
-}
+  $.post("/api/friends", newFriend, (data) => {
 
-$.post("/api/friends", newFriend, (data)=>{
+    getFriendsData();
 
-getFriendsData();
-
-$(`#inputName`).val(``);
-$(`#inputPicture`).val(``);
-$(`#inputScores`).val(``);
+    $(`#inputName`).val(``);
+    $(`#inputPicture`).val(``);
+    $(`#inputScores`).val(``);
+  });
 });
-});
 
+function getFriendsData() {
+  $.ajax({
+    method: `GET`,
+    URL: `/api/friends`,
 
-function getFriendsData(){
-$.ajax({
-method:`GET`,
-URL:`/api/friends`,
+  }).then(data => {
+    //
+    console.log(data);
 
-}).then(data=>{
-//
-  console.log(data);
-
-})
+  })
 }
 
 questionnaire(questions);

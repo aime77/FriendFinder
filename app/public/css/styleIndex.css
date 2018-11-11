@@ -1,0 +1,12 @@
+body{
+    background-image:url("../images/pairs.jpg");
+    color: black;
+    background-repeat:repeat;
+    background-size: cover;
+    text-align: center;
+}
+
+.jumbotron{
+    margin: auto;
+}
+
