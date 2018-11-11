@@ -1,33 +1,40 @@
-let questions = ['I remember my dreams most of the times.', 'I know myself well', 'I show care for other through words or actions', 'I show care for others through gifts', 'What I want in life is happiness', 'What I want in life is money and a good career', 'I have strong fears', 'I know my strengths and weaknesses', 'I have a clear idea of what my life will look like 10 years from now', 'It is hard for me to admit Im wrong', 'I feel upset without knowing the cause', 'My parents have raised me well'];
-
-function questionnaire(questions) {
-
-
-  const options = ` <div class="form-group">
-  <select class="form-control id="combo" placeholder="Select Option">
-    <option selected>Select Option</option>
-    <option type=input>1 (Strongly Disagree)</option>
-    <option type=input>2</option>
-    <option type=input>3</option>
-    <option type=input>4</option>
-    <option type=input>5 (Strongly Agree)</option>
+//create array of options with unique ids
+var optArray=[];
+for(var i=0; i<10; i++){
+var options= `<div class="form-group">
+  <select class="form-control combo" placeholder="Select Option" id=${i}>
+    <option>Select Option</option>
+    <option value=1>1 (Strongly Disagree)</option>
+    <option value=2>2</option>
+    <option value=3>3</option>
+    <option value=4>4</option>
+    <option value=5>5 (Strongly Agree)</option>
   </select>
 </div>`;
+optArray.push(options)
 
-  questions.forEach((quest, index) => {
-    $(`#questionSpace`).append(`<div><h3>${index + 1}. ${quest} </h3>\n ${options} </div>\n`);
-  }
-  );
 }
 
-$(`#submit`).on('click', (event) => {
+//array of questions
+let questions = ['I remember my dreams most of the times.', 'I know myself well', 'I show care for other through words or actions', 'I show care for others through gifts', 'What I want in life is happiness', 'What I want in life is money and a good career', 'I have strong fears', 'I know my strengths and weaknesses', 'I have a clear idea of what my life will look like 10 years from now', 'It is hard for me to admit Im wrong'];
+
+//dinamically append questions and answers
+function questionnaire(){
+for(var i=0; i<questions.length; i++){
+  $(`#questionSpace`).append(`<div><h3>${i + 1}. ${questions[i]} </h3>\n  ${optArray[i]} </div>`);
+}
+}
+
+//on submit questionnaire
+$(document.body).on("click", '#submit', (event) => {
   event.preventDefault();
-
-  let scoresArray = [];
-
-
-  let scoresArray = [];
-  scoresArray.push($('#combo :selected').text())
+  var scoresArray = [];
+  var val;
+  for (var i = 0; i < 10; i++) {
+    val = parseInt($(`#${i} :selected`).val());
+    if (isNaN(val)) val=0; 
+    scoresArray.push(val);
+  }
 
   var newFriend = {
     name: $(`#inputName`).val().trim(),
@@ -37,24 +44,17 @@ $(`#submit`).on('click', (event) => {
 
   $.post("/api/friends", newFriend, (data) => {
 
-    getFriendsData();
+ if(data){alert("it works!");
 
-    $(`#inputName`).val(``);
-    $(`#inputPicture`).val(``);
-    $(`#inputScores`).val(``);
+ //modal pop to display picture
+ }else{
+   //modal pop to ask to fill rest of pictures
+ }
+
+  $(`#inputName`).val(``);
+  $(`#inputPicture`).val(``);
+  //$(`#inputScores`).val(``);
   });
 });
 
-function getFriendsData() {
-  $.ajax({
-    method: `GET`,
-    URL: `/api/friends`,
-
-  }).then(data => {
-    //
-    console.log(data);
-
-  })
-}
-
-questionnaire(questions);
+questionnaire();
