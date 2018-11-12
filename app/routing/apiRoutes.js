@@ -38,6 +38,15 @@ module.exports = (app, connection) => {
             var selectedFriend=totalNumArray.min();
             console.log(`Selected person ${selectedFriend}`);
             
+            var newIndex=selectedFriend.findIndex(selectedFriend);
+            selectedFriend={
+                name:res[newIndex].name,
+                picture: res[newIndex].photo
+            }
+
+            res.send(selectedFriend);
+            res.JSON(selectedFriend);
+
         })
 
         let newScores = newFriend.scores.join(',');
