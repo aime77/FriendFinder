@@ -19,8 +19,8 @@ module.exports = (app, connection) => {
 
     //inserting new friend to mysql dataFriends database
     app.post("/api/friends", (req, res) => {
-        let newFriend = req.body;
         console.log(req.body);
+        let newFriend = req.body;
         newScores = newFriend.scores.join(',');
 
 
