@@ -28,12 +28,23 @@ module.exports = (app, connection) => {
             },
             (err, results) => {
                 if (err) throw err;
-                return res.json(result);
+                return res.json(results);
             });
 
-    //calculations to find best match
+        //calculations to find best match
 
+        connection.query("SELECT * FROM friends", (err, res) => {
+            if (err) throw err;
+            var totalNum = 0;
+            //get all friends from database
+            for (let i = 0; i < res.length; i++) {
+                //loop over each answer 
+                for (j = 0; j < 10; i++) {
+                    totalNum += Math.abs(parseInt(res[i].scores.split(',')[j]) - parseInt(newFriend.scores[j]));
+                    console.log(totalNum);
+                }
+            }
+        }
+        )
     })
-
-
 }
