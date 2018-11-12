@@ -18,7 +18,7 @@ module.exports = (app, connection) => {
     })
 
     //inserting new friend to mysql dataFriends database
-    app.post("/api/friends", (req, res) => {
+    app.post("/api/friends", (req, response) => {
         let newFriend = req.body;
         //calculations to find best match
         connection.query("SELECT * FROM friends", (err, res) => {
@@ -35,17 +35,20 @@ module.exports = (app, connection) => {
                      console.log(totalNum);
                      totalNumArray.push(totalNum);
             }
-            var selectedFriend=totalNumArray.min();
-            console.log(`Selected person ${selectedFriend}`);
+            console.log(`Selected ${totalNumArray}`);
+            //var newIndex=totalNumArray.findIndex(Math.min(...totalNumArray));
+            var selectedFriend=Math.min(...totalNumArray);
+            console.log(`Selected person ${totalNumArray}`);
             
-            var newIndex=selectedFriend.findIndex(selectedFriend);
-            selectedFriend={
+            
+            var newIndex=totalNumArray.indexOf(selectedFriend);
+           var selectedFriendObj={
                 name:res[newIndex].name,
                 picture: res[newIndex].photo
             }
 
-            res.send(selectedFriend);
-            res.JSON(selectedFriend);
+            response.send(selectedFriendObj);
+           // response.JSON(selectedFriendObj);
 
         })
 
@@ -58,7 +61,7 @@ module.exports = (app, connection) => {
             },
             (err, results) => {
                 if (err) throw err;
-                return res.json(results);
+                return response.json(results);
             });
     })
 }

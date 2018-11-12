@@ -48,8 +48,10 @@ $(document.body).on("click", '#submit', (event) => {
   }
 
   $.post("/api/friends", newFriend, (data) => {
+    console.log(data);
       //modal pop to display picture
     if (data) {
+      
       $("#modalName").text(data.name);
       $("#modalImg").attr("src", data.picture);
     } else {
