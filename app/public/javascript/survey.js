@@ -28,18 +28,23 @@ function questionnaire() {
 //on submit questionnaire
 $(document.body).on("click", '#submit', (event) => {
   event.preventDefault();
-  var scoresArray = [];
+  //var scoresString="";
+  var scoreArray=[];
   var val;
   for (var i = 0; i < 10; i++) {
-    val = parseInt($(`#${i} :selected`).val());
+    val = $(`#${i} :selected`).val();
     if (isNaN(val)) val = 0;
-    scoresArray.push(val);
+    scoreArray.push(parseInt(val))
+    //scoresString+=val;
   }
+  
+  console.log(scoreArray);
 
+  //console.log(scoresString);
   var newFriend = {
     name: $(`#inputName`).val().trim(),
-    picture: $(`#inputPicture`).val().trim(),
-    scores: scoresArray
+    photo: $(`#inputPicture`).val().trim(),
+    scores: scoreArray
   }
 
   $.post("/api/friends", newFriend, (data) => {

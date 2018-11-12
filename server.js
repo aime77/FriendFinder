@@ -4,14 +4,14 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const path = require('path');
-var connection;
+let connection;
 
 
 if (process.env.NODE_ENV === 'production') {
     connection = mysql.createConnection(process.env.JAWSDB_URL);
 } else {
     connection = mysql.createConnection({
-        port: process.env.DB_PORT || 4000,
+        port: process.env.DB_PORT || 3306,
         host: process.env.DB_HOST || `localhost`,
         password: process.env.DB_PASSWORD || `root`,
         database: process.env.DB_DATABASE || `datafriends_db`,

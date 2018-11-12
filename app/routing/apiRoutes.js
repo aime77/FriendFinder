@@ -8,7 +8,7 @@ module.exports = (app, connection) => {
             results.forEach(val => {
                 friendsObj = {
                     name: val.name,
-                    picture: val.picture,
+                    photo: val.photo,
                     scores: val.scores.split(',')
                 }
                 friendsArray.push(friendsObj);
@@ -20,11 +20,15 @@ module.exports = (app, connection) => {
     //inserting new friend to mysql dataFriends database
     app.post("/api/friends", (req, res) => {
         let newFriend = req.body;
+        console.log(req.body);
+        newScores = newFriend.scores.join(',');
+
+
         connection.query(`INSERT INTO friends SET ?`,
             {
                 name: newFriend.name,
-                picture: newFriend.picture,
-                scores: newFriend.scores.join(',')
+                photo: newFriend.photo,
+                scores: newScores,
             },
             (err, results) => {
                 if (err) throw err;

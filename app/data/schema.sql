@@ -1,11 +1,18 @@
-CREATE DATABASE if not exists datafriends_db;
+USE lppivj8kzgh8ivhj;
 
-USE datafriends_db;
+CREATE TABLE friends(
+id INT NOT NULL AUTO_INCREMENT,
+name VARCHAR(50) NOT NULL,
+photo VARCHAR(50) NOT NULL,
+scores VARCHAR(50) NOT NULL,
 
-CREATE TABLE IF NOT EXISTS users(
-    id INT(10) NOT NULL AUTO_INCREMENT
-    , name VARCHAR(45) NOT NULL
-    , photo VARCHAR(200) NOT NULL
-    , scores VARCHAR (40) NOT NULL
-    , PRIMARY KEY (id)
+PRIMARY KEY(id)
 );
+
+SELECT * FROM friends;
+
+INSERT INTO friends(name, photo, scores)
+VALUES("Sun", "https://goo.gl/images/T3hZxM", "5,5,1,1,5,1,2,1,5,4");
+
+INSERT INTO friends(name, photo, scores)
+VALUES("Moon", "https://goo.gl/images/VRKjoP", "4,3,5,6,5,1,2,2,5,1");
