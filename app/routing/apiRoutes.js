@@ -16,14 +16,25 @@ module.exports = (app, connection) => {
             return res.json(friendsArray);
         })
     })
-    //calculations to find best match
+    
     app.post("/api/friends", (req, response, next) => {
         let newFriend = req.body;
-        let totalNum = 0;
         let totalNumArray = [];
         let selectedFriendObj;
+        let newScores = newFriend.scores.join(',');
 
-
+        //add new friend to database
+        connection.query(`INSERT INTO friends SET ?`,
+            {
+                name: newFriend.name,
+                photo: newFriend.photo,
+                scores: newScores,
+            },
+            (err, results) => {
+                if (err) throw err;
+                console.log(results);
+            });
+        //calculations to find best match
         connection.query("SELECT * FROM friends", (err, res) => {
             if (err) throw err;
 
@@ -41,7 +52,7 @@ module.exports = (app, connection) => {
             const selectedFriend = Math.min(...totalNumArray);
 
             const newIndex = totalNumArray.indexOf(selectedFriend);
-    
+
             selectedFriendObj = {
                 name: res[newIndex].name,
                 picture: res[newIndex].photo
