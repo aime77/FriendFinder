@@ -2,23 +2,21 @@
 ## Overview<h2>
  Dating app which takes results from users' surveys and compares answers with those from other users. The app displays the name and picture of the user with the best overall match.
 
-## Dependencies<h2>
-## Front-End<h3>
+## Dependencies - Front-End<h2>
 * Bootstrap
 * JQuery Modals
 
-## Back-End<h3>
+## Dependencies - Back-End<h2>
 * Express
 * Node
 * Heroku
 * JawsDB MySQL
 
-## Structure<h2>
-## Front-end<h3>
+## Structure - Front-end<h2>
 * Built dynamically 
 * Ajax post request to send survey data and receive a response with best match information
 
-## Back-end<h3>
+## Structure - Back-end<h2>
 * Two html routes:
 1. _index.html_ main site to direct user to take survey
 2. _survey.html_ survey site
