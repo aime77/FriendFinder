@@ -16,41 +16,12 @@ module.exports = (app, connection) => {
             return res.json(friendsArray);
         })
     })
-
-    //inserting new friend to mysql dataFriends database
-    app.post("/api/friends", (req, response) => {
+    //calculations to find best match
+    app.post("/api/friends", (req, response, next) => {
         let newFriend = req.body;
-        //calculations to find best match
-        connection.query("SELECT * FROM friends", (err, res) => {
-            if (err) throw err;
-            let foundYou=false;
-            let totalNum = 0;
-            let totalNumArray=[]
-            //get all friends from database
-            for (let i = 0; i < res.length; i++) {
-                //loop over each answer 
-                for (j = 0; j < newFriend.scores.length; j++) {
-                    totalNum += Math.abs(parseInt(res[i].scores.split(',')[j]) - parseInt(newFriend.scores[j]));
-                     }
-                     console.log(totalNum);
-                     totalNumArray.push(totalNum);
-            }
-            console.log(`Selected ${totalNumArray}`);
-            //var newIndex=totalNumArray.findIndex(Math.min(...totalNumArray));
-            var selectedFriend=Math.min(...totalNumArray);
-            console.log(`Selected person ${totalNumArray}`);
-            
-            
-            var newIndex=totalNumArray.indexOf(selectedFriend);
-           var selectedFriendObj={
-                name:res[newIndex].name,
-                picture: res[newIndex].photo
-            }
-
-            response.send(selectedFriendObj);
-           // response.JSON(selectedFriendObj);
-
-        })
+        let totalNum = 0;
+        let totalNumArray = [];
+        let selectedFriendObj;
 
         let newScores = newFriend.scores.join(',');
         connection.query(`INSERT INTO friends SET ?`,
@@ -61,7 +32,34 @@ module.exports = (app, connection) => {
             },
             (err, results) => {
                 if (err) throw err;
-                return response.json(results);
+                console.log(results);
+                // return response.json(results);
             });
+
+        connection.query("SELECT * FROM friends", (err, res) => {
+            if (err) throw err;
+
+            //get all friends from database
+            for (let i = 0; i < res.length; i++) {
+                //loop over each answer 
+                for (j = 0; j < newFriend.scores.length; j++) {
+                    totalNum += Math.abs(parseInt(res[i].scores.split(',')[j]) - parseInt(newFriend.scores[j]));
+                }
+                console.log(totalNum);
+                totalNumArray.push(totalNum);
+            }
+            console.log(`Selected ${totalNumArray}`);
+            //var newIndex=totalNumArray.findIndex(Math.min(...totalNumArray));
+            var selectedFriend = Math.min(...totalNumArray);
+            console.log(`Selected person ${totalNumArray}`);
+
+            var newIndex = totalNumArray.indexOf(selectedFriend);
+            selectedFriendObj = {
+                name: res[newIndex].name,
+                picture: res[newIndex].photo
+            }
+            response.send(selectedFriendObj);
+            //response.JSON(selectedFriendObj);
+        });
     })
 }

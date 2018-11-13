@@ -51,8 +51,8 @@ $(document.body).on("click", '#submit', (event) => {
     console.log(data);
       //modal pop to display picture
     if (data) {
-      
-      $("#modalName").text(data.name);
+      $("#modalName").append(data.name);
+      console.log(data.name);
       $("#modalImg").attr("src", data.picture);
     } else {
         //modal pop to ask to fill rest of pictures
@@ -61,6 +61,10 @@ $(document.body).on("click", '#submit', (event) => {
 
     $(`#inputName`).val(``);
     $(`#inputPicture`).val(``);
+
+    $("#close").click(function () {
+      window.location.reload(true);
+  });
 
   });
 });
