@@ -15,7 +15,7 @@ for (var i = 0; i < 10; i++) {
 }
 
 //array of questions
-let questions = ['I remember my dreams most of the times.', 'I know myself well', 'I show care for other through words or actions', 'I show care for others through gifts', 'What I want in life is happiness', 'What I want in life is money and a good career', 'I have strong fears', 'I know my strengths and weaknesses', 'I have a clear idea of what my life will look like 10 years from now', 'It is hard for me to admit Im wrong'];
+let questions = ['I remember my dreams most of the times', 'I know myself well', 'I show care for other through words or actions', 'I show care for others through gifts', 'What I want in life is happiness', 'What I want in life is money and a good career', 'I have strong fears', 'I know my strengths and weaknesses', 'I have a clear idea of what my life will look like 10 years from now', 'It is hard for me to admit Im wrong'];
 
 //dinamically append questions and answers
 function questionnaire() {
