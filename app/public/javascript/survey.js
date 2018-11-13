@@ -12,7 +12,6 @@ for (var i = 0; i < 10; i++) {
   </select>
 </div>`;
   optArray.push(options)
-
 }
 
 //array of questions
@@ -43,9 +42,6 @@ $(document.body).on("click", '#submit', (event) => {
     scoreArray.push(parseInt(val))
   }
 
-  console.log(scoreArray);
-
-  //console.log(scoresString);
   const newFriend = {
     name: $(`#inputName`).val().trim(),
     photo: $(`#inputPicture`).val().trim(),
@@ -54,12 +50,13 @@ $(document.body).on("click", '#submit', (event) => {
 
   $.post("/api/friends", newFriend, (data) => {
     console.log(data);
-    //modal pop to display picture
+    //modal pop to display picture and name
     if (data) {
       $("#modalName").text(`Your new friend's name is ${data.name}`);
       console.log(data.name);
       $("#modalImg").attr("src", data.picture);
     } else {
+      //if there isn't response, ERROR msg
       $("#modalImg").remove();
       $("#modalName").text("We apologize, an ERROR has occurred. Please try again.");
     }
