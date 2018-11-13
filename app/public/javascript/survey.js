@@ -25,23 +25,28 @@ function questionnaire() {
   }
 }
 
-//on submit questionnaire
+//on submit questionnaire 
 $(document.body).on("click", '#submit', (event) => {
   event.preventDefault();
-  //var scoresString="";
-  var scoreArray=[];
+
+  if ($(`#inputName`).val().trim() === "" || $(`#inputPicture`).val().trim() === "") {
+    $("#modalName").text("You have to enter a valid name and photo URL before submitting!");
+    $("#modalImg").remove();
+    return true;
+  }
+
+  const scoreArray = [];
   var val;
   for (var i = 0; i < 10; i++) {
     val = $(`#${i} :selected`).val();
     if (isNaN(val)) val = 0;
     scoreArray.push(parseInt(val))
-    //scoresString+=val;
   }
-  
+
   console.log(scoreArray);
 
   //console.log(scoresString);
-  var newFriend = {
+  const newFriend = {
     name: $(`#inputName`).val().trim(),
     photo: $(`#inputPicture`).val().trim(),
     scores: scoreArray
@@ -49,24 +54,22 @@ $(document.body).on("click", '#submit', (event) => {
 
   $.post("/api/friends", newFriend, (data) => {
     console.log(data);
-      //modal pop to display picture
+    //modal pop to display picture
     if (data) {
-      $("#modalName").append(data.name);
+      $("#modalName").text(`Your new friend's name is ${data.name}`);
       console.log(data.name);
       $("#modalImg").attr("src", data.picture);
     } else {
-        //modal pop to ask to fill rest of pictures
-      $("#modalName").text("Please try again!");
+      $("#modalImg").remove();
+      $("#modalName").text("We apologize, an ERROR has occurred. Please try again.");
     }
-
-    $(`#inputName`).val(``);
-    $(`#inputPicture`).val(``);
 
     $("#close").click(function () {
       window.location.reload(true);
-  });
-
+    });
   });
 });
 
 questionnaire();
+
+

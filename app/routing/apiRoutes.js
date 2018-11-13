@@ -22,19 +22,7 @@ module.exports = (app, connection) => {
         let totalNum = 0;
         let totalNumArray = [];
         let selectedFriendObj;
-
-        let newScores = newFriend.scores.join(',');
-        connection.query(`INSERT INTO friends SET ?`,
-            {
-                name: newFriend.name,
-                photo: newFriend.photo,
-                scores: newScores,
-            },
-            (err, results) => {
-                if (err) throw err;
-                console.log(results);
-                // return response.json(results);
-            });
+        
 
         connection.query("SELECT * FROM friends", (err, res) => {
             if (err) throw err;
@@ -61,5 +49,7 @@ module.exports = (app, connection) => {
             response.send(selectedFriendObj);
             //response.JSON(selectedFriendObj);
         });
+
+        
     })
 }
